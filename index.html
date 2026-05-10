@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galen D. Ziegler | GenAI Portfolio</title>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --secondary: #0d9488;
+            --accent: #facc15;
+            --bg-dark: #0f172a;
+            --text-light: #f8fafc;
+            --text-muted: #94a3b8;
+            --card-bg: rgba(30, 41, 59, 0.7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Gradients & Backgrounds */
+        .blob {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(13, 148, 136, 0.2) 0%, rgba(15, 23, 42, 0) 70%);
+            z-index: -1;
+            filter: blur(50px);
+        }
+
+        .blob-2 {
+            position: fixed;
+            bottom: -100px;
+            left: -100px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(30, 58, 138, 0.2) 0%, rgba(15, 23, 42, 0) 70%);
+            z-index: -1;
+            filter: blur(50px);
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 10%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.5rem;
+            letter-spacing: -1px;
+            background: linear-gradient(to right, var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--secondary);
+        }
+
+        /* Hero Section */
+        section {
+            padding: 8rem 10% 4rem;
+            min-height: 100vh;
+        }
+
+        .hero {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            text-align: left;
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to bottom right, #fff 50%, #64748b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin-bottom: 2.5rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--secondary);
+            color: white;
+            box-shadow: 0 4px 20px rgba(13, 148, 136, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(13, 148, 136, 0.5);
+        }
+
+        /* About Section */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tag {
+            background: rgba(13, 148, 136, 0.1);
+            color: var(--secondary);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+
+        /* Course Section */
+        .course-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .module-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 2.5rem;
+            border-radius: 24px;
+            transition: transform 0.3s, border-color 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .module-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--secondary);
+        }
+
+        .module-card h3 {
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        .module-card p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        .module-number {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 3rem;
+            font-weight: 900;
+            opacity: 0.05;
+        }
+
+        /* Submissions Section */
+        .submissions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .submission-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px dashed rgba(255, 255, 255, 0.2);
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .submission-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--secondary);
+        }
+
+        .submission-item i {
+            display: block;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--text-muted);
+        }
+
+        .status-badge {
+            font-size: 0.7rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 10px;
+            background: #334155;
+            margin-top: 1rem;
+            display: inline-block;
+        }
+
+        /* Footer */
+        footer {
+            padding: 4rem 10%;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3rem; }
+            .about-grid { grid-template-columns: 1fr; }
+            nav ul { display: none; }
+            section { padding: 6rem 5% 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="blob"></div>
+    <div class="blob-2"></div>
+
+    <nav>
+        <div class="logo">GZ.AI</div>
+        <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#course">Course</a></li>
+            <li><a href="#submissions">Submissions</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="tag">Nursing Education & AI</div>
+        <h1>Bridging Pedagogy <br>with Artificial Intelligence</h1>
+        <p>
+            I am <strong>Galen D. Ziegler</strong>, a PhD candidate and Assistant Professor dedicated to 
+            transforming nursing education through responsible AI integration and higher-order cognitive development.
+        </p>
+        <a href="#submissions" class="btn btn-primary">View My Coursework</a>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="about-grid">
+            <div class="about-visual">
+                <!-- SVG Placeholder for Illustration -->
+                <svg width="100%" height="300" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="100" cy="100" r="80" stroke="url(#paint0_linear)" stroke-width="2" stroke-dasharray="10 5"/>
+                    <path d="M100 40V160M40 100H160" stroke="var(--secondary)" stroke-opacity="0.3"/>
+                    <defs>
+                        <linearGradient id="paint0_linear" x1="20" y1="20" x2="180" y2="180" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="var(--secondary)"/>
+                            <stop offset="1" stop-color="var(--accent)"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+            <div class="about-content">
+                <div class="tag">My Vision</div>
+                <h2>Visionary Leadership in Education</h2>
+                <p>
+                    As an Assistant Professor at Harford Community College and a PhD candidate at Liberty University, 
+                    my focus is on demystifying AI for healthcare professionals. My dissertation explores the impact 
+                    of interactive AI avatars on critical thinking in undergraduate nursing students.
+                </p>
+                <br>
+                <p>
+                    I believe AI is a catalyst for transforming how we cultivate clinical judgment. This portfolio 
+                    documents my journey through the "Generative AI for Work & Research" cohort, where I am mastering 
+                    no-code tools to automate tasks and enhance research productivity.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Course Section -->
+    <section id="course">
+        <div class="course-header">
+            <div class="tag">8-Week Live Cohort</div>
+            <h2>Generative AI for Work & Research</h2>
+            <p>A comprehensive program by GRAPH Courses focused on responsible task automation and AI-driven insights.</p>
+        </div>
+        
+        <div class="course-grid">
+            <div class="module-card">
+                <div class="module-number">01</div>
+                <h3>Websites & Presentations</h3>
+                <p>LLM fundamentals, generating Markdown/LaTeX, and building research websites using tools like Replit and Canvas.</p>
+            </div>
+            <div class="module-card">
+                <div class="module-number">02</div>
+                <h3>Automated Data Analysis</h3>
+                <p>Using Code Interpreter, Julius, and Windsurf to process datasets, visualize results, and create automated dashboards.</p>
+            </div>
+            <div class="module-card">
+                <div class="module-number">03</div>
+                <h3>Research & Text Analysis</h3>
+                <p>Efficient literature reviews with Elicit, sentiment analysis, and designing automated summarization workflows.</p>
+            </div>
+            <div class="module-card">
+                <div class="module-number">04</div>
+                <h3>Custom GPTs & Chatbots</h3>
+                <p>Building RAG systems, integrating knowledge bases, and creating interactive chatbots with Botpress.</p>
+            </div>
+            <div class="module-card">
+                <div class="module-number">05</div>
+                <h3>AI Task Automation</h3>
+                <p>Setting up agent-based systems, browser control agents, and app-to-app workflows to save time.</p>
+            </div>
+            <div class="module-card">
+                <div class="module-number">06</div>
+                <h3>Communication & Outreach</h3>
+                <p>Scientific visualization, video abstracts, and prompt engineering for research dissemination.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Submissions Section -->
+    <section id="submissions">
+        <div class="course-header">
+            <div class="tag">Output Library</div>
+            <h2>Weekly Submissions</h2>
+            <p>A collection of my work, assignments, and capstone progress throughout the course.</p>
+        </div>
+
+        <div class="submissions-grid" id="submissionsGrid">
+            <!-- Week 1 -->
+            <div class="submission-item">
+                <div style="font-size: 0.8rem; color: var(--secondary); margin-bottom: 0.5rem; font-weight: bold;">WEEK 1</div>
+                <h4>Personal Site</h4>
+                <p style="font-size: 0.8rem;">Initial Portfolio Generation</p>
+                <div class="status-badge" style="background: #065f46; color: #a7f3d0;">Live</div>
+            </div>
+            
+            <!-- Week 2-8 Placeholders -->
+            <div class="submission-item">
+                <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">WEEK 2</div>
+                <h4>Data Pipeline</h4>
+                <p style="font-size: 0.8rem;">Pending Submission</p>
+                <div class="status-badge">Locked</div>
+            </div>
+            <div class="submission-item">
+                <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">WEEK 3</div>
+                <h4>Synthesis Map</h4>
+                <p style="font-size: 0.8rem;">Pending Submission</p>
+                <div class="status-badge">Locked</div>
+            </div>
+            <div class="submission-item">
+                <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">WEEK 4</div>
+                <h4>Knowledge Bot</h4>
+                <p style="font-size: 0.8rem;">Pending Submission</p>
+                <div class="status-badge">Locked</div>
+            </div>
+            <div class="submission-item">
+                <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">WEEK 5</div>
+                <h4>Automation Agent</h4>
+                <p style="font-size: 0.8rem;">Pending Submission</p>
+                <div class="status-badge">Locked</div>
+            </div>
+            <div class="submission-item">
+                <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">WEEK 6</div>
+                <h4>Visual Abstract</h4>
+                <p style="font-size: 0.8rem;">Pending Submission</p>
+                <div class="status-badge">Locked</div>
+            </div>
+            <div class="submission-item">
+                <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">WEEK 7</div>
+                <h4>Capstone Draft</h4>
+                <p style="font-size: 0.8rem;">Pending Submission</p>
+                <div class="status-badge">Locked</div>
+            </div>
+            <div class="submission-item">
+                <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">WEEK 8</div>
+                <h4>Final Showcase</h4>
+                <p style="font-size: 0.8rem;">Pending Submission</p>
+                <div class="status-badge">Locked</div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Galen D. Ziegler. Built with Generative AI for Work & Research.</p>
+        <p style="margin-top: 1rem; font-size: 0.8rem;">Harford Community College | Liberty University PhD Candidate</p>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Simple animation on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.module-card, .submission-item').forEach(el => {
+            el.style.opacity = 0;
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'all 0.6s ease-out';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
