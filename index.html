@@ -108,6 +108,25 @@
             text-align: left;
         }
 
+        .avatar-container {
+            margin-bottom: 2rem;
+            position: relative;
+            padding: 5px;
+            background: linear-gradient(to bottom right, var(--secondary), var(--accent));
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .avatar-img {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            object-fit: cover;
+            display: block;
+            border: 4px solid var(--bg-dark);
+        }
+
         .hero h1 {
             font-size: 4.5rem;
             line-height: 1.1;
@@ -267,6 +286,7 @@
             .about-grid { grid-template-columns: 1fr; }
             nav ul { display: none; }
             section { padding: 6rem 5% 2rem; }
+            .avatar-img { width: 120px; height: 120px; }
         }
     </style>
 </head>
@@ -285,6 +305,9 @@
 
     <!-- Hero Section -->
     <section class="hero">
+        <div class="avatar-container">
+            <img src="https://github.com/gziegler-svg/graph-ai-portfolio/blob/main/FD57254F-FCF4-4E91-9193-BDEAE153487F.JPG?raw=true" alt="Galen D. Ziegler" class="avatar-img">
+        </div>
         <div class="tag">Nursing Education & AI</div>
         <h1>Bridging Pedagogy <br>with Artificial Intelligence</h1>
         <p>
